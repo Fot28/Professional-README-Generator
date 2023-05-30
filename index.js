@@ -29,7 +29,22 @@ const questions = [
 		type: "list",
 		name: "license",
 		message: "Choose a license for your application:",
-		choices: ["MIT", "None"],
+		choices: [
+			"None",
+			"Apache 2.0",
+			"GNU General Public v3.0",
+			"MIT",
+			"BSD 2-Clause 'Simplified'",
+			"BSD 3-Clause 'New' or 'Revised'",
+			"Boost Software 1.0",
+			"Creative Commons Zero v1.0 Universal",
+			"Eclipse Public 2.0",
+			"GNU Affero General Public v3.0",
+			"GNU General Public v2.0",
+			"GNU Lesser General Public v2.1",
+			"Mozilla Public 2.0",
+			"The Unlicense",
+		],
 	},
 	{
 		type: "input",
@@ -54,10 +69,21 @@ const questions = [
 ];
 
 // function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+	fs.writeFileSync(path.join(process.cwd(), fileName), data);
+}
 
 // function to initialize program
-function init() {}
+function init() {
+	inquirer
+		.prompt(questions)
+		.then((answers) => {
+			const markdown = generateMarkdown(answers);
+			writeToFile("README.md", markdown);
+		})
+		.then(() => console.log("README file created successfully!"))
+		.catch((err) => console.error(err));
+}
 
 // function call to initialize program
 init();
